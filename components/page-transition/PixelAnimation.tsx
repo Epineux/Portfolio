@@ -54,16 +54,13 @@ const PixelAnimation = ({ transitionActive }: { transitionActive: boolean }) => 
     return delays.map((randomDelay, index) => (
       <motion.div
         key={index}
-        className={clsx("bg-accent", {
-          "h-[2.5vw]": columns === 40,
-          "h-[5vw]": columns === 20
-        }
-        )}
+        className={clsx('bg-accent', {
+          'h-[2.5vw]': columns === 40,
+          'h-[5vw]': columns === 20,
+        })}
         variants={anim}
         initial="initial"
-        // When transitionActive is true, we animate to "open"
-        // When it’s false, the blocks will be removed, triggering the exit animation
-        animate={transitionActive ? "open" : "closed"}
+        animate={transitionActive ? 'open' : 'closed'}
         exit="closed"
         custom={randomDelay + columnIndex + index}
       />

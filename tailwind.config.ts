@@ -20,13 +20,13 @@ export default {
         '3xl': '2.5rem',
       },
       colors: {
-        primary: '#023047',
+        primary: 'var(--background-color)',
         accent: {
-          DEFAULT: '#8ECAE6',
+          DEFAULT: 'var(--accent-color)',
           hover: '#219EBC',
         },
         secondary: {
-          DEFAULT: '#FFB703',
+          DEFAULT: 'var(--secondary-color)',
           hover: '#FB8500',
         },
       },
@@ -40,6 +40,7 @@ export default {
         md: '768px',
         lg: '960px',
         xl: '1200px',
+        '2xl': '1200px',
       },
     },
   },

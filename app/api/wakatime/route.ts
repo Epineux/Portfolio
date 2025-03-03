@@ -12,11 +12,14 @@ export async function GET() {
 
     const authHeader = Buffer.from(`${WAKATIME_API_KEY}:`).toString('base64');
 
-    const response = await fetch('https://wakatime.com/api/v1/users/current/stats/last_7_days', {
-      headers: {
-        'Authorization': `Basic ${authHeader}`,
-      },
-    });
+    const response = await fetch(
+      `https://wakatime.com/api/v1/users/current/stats/last_7_days`,
+      {
+        headers: {
+          Authorization: `Basic ${authHeader}`,
+        },
+      }
+    );
     if (!response.ok) {
       throw new Error(`Wakatime API responded with status: ${response.status}`);
     }
@@ -24,18 +27,12 @@ export async function GET() {
     const data = await response.json();
 
     const processedData = {
-      total_time_human_readable: data.data.human_readable_total,
-      daily_average_human_readable: data.data.human_readable_daily_average,
-      languages: data.data.languages.map(lang => ({
-        name: lang.name,
-        text: lang.text,
-        percent: lang.percent,
-      })),
-      editors: data.data.editors.map(editor => ({
-        name: editor.name,
-        text: editor.text,
-        percent: editor.percent,
-      })),
+      total_time_human_readable:
+        data.data.human_readable_total_including_other_language,
+      total_time_seconds: data.data.projects.reduce(
+        (total: number, project: any) => total + project.total_seconds,
+        0
+      ),
     };
 
     return new Response(JSON.stringify(processedData), {

@@ -10,6 +10,7 @@ export async function GET() {
         headers: { 'Content-Type': 'application/json' }
       });
     }
+
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     const since = oneWeekAgo.toISOString();

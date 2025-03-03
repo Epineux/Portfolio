@@ -3,56 +3,58 @@ import { useEffect, useState } from "react";
 
 interface WakaTimeStats {
   total_time_human_readable: string;
+  total_time_seconds: number;
 }
 
 interface GitHubStats {
   totalCommits: number;
 }
 
-// Interface pour les résultats du hook
-interface StatsFetchResult {
-  wakatimeStats: WakaTimeStats | null;
-  githubStats: GitHubStats | null;
-  loading: boolean;
-  error: string | null;
-}
-
 export function useStatsFetch() {
-  const [wakatimeStats, setWakatimeStats] = useState<WakaTimeStats | null>(null);
+  const [wakatimeStats, setWakatimeStats] = useState<WakaTimeStats | null>(
+    null
+  );
   const [githubStats, setGithubStats] = useState<GitHubStats | null>(null);
+  const [coffeeDrinks, setCoffeeDrinks] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         setLoading(true);
         // Fetch Wakatime stats
-        const wakatimeResponse = await fetch("/api/wakatime");
+        const wakatimeResponse = await fetch('/api/wakatime');
         if (!wakatimeResponse.ok) {
-          throw new Error("Failed to fetch Wakatime data");
+          throw new Error('Failed to fetch Wakatime data');
         }
         const wakatimeData = await wakatimeResponse.json();
+        console.log(wakatimeData);
 
         // Fetch GitHub stats
-        const githubResponse = await fetch("/api/github");
+        const githubResponse = await fetch('/api/github');
         if (!githubResponse.ok) {
-          throw new Error("Failed to fetch GitHub data");
+          throw new Error('Failed to fetch GitHub data');
         }
         const githubData = await githubResponse.json();
 
+        const coffeeDrinks = +(
+          (wakatimeData.total_time_seconds / 20 +
+            githubData.totalCommits * 50) /
+          100
+        ).toFixed(2);
+
         setWakatimeStats(wakatimeData);
         setGithubStats(githubData);
-    } catch (error: any) {
-      console.error('Error fetching data:', error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setCoffeeDrinks(coffeeDrinks);
+      } catch (error: any) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchStats();
-}, []);
+    fetchStats();
+  }, []);
 
-return { wakatimeStats, githubStats, loading, error };
+  return { wakatimeStats, githubStats, coffeeDrinks, loading };
 }

@@ -1,15 +1,17 @@
 import clsx from 'clsx';
+
 import CountUp from 'react-countup';
+import CoffeeFormula from './CoffeeFormula';
 
 interface StatsItemProps {
   text: string;
   icon: React.ReactNode;
   value: number | string;
   subText: string;
+  formula?: string;
 }
 
-
-const StatsItem = ({ text, icon, value, subText } : StatsItemProps) => {
+const StatsItem = ({ text, icon, value, subText, formula }: StatsItemProps) => {
   const renderValue = () => {
     if (typeof value === 'number') {
       return (
@@ -44,8 +46,8 @@ const StatsItem = ({ text, icon, value, subText } : StatsItemProps) => {
             }
             // Return non-numeric parts as is
             return (
-              <div className='mr-xs'
-                key={index}>{part}
+              <div className="mr-xs ml-2xs" key={index}>
+                {part}
               </div>
             );
           })}
@@ -57,20 +59,25 @@ const StatsItem = ({ text, icon, value, subText } : StatsItemProps) => {
   };
 
   return (
-    <div className={clsx('mx-auto mb-xl',
-      text === 'Coffees' && 'col-span-1 md:col-span-2 lg:col-span-1',
-    )}>
+    <div
+      className={clsx(
+        'mb-xl mx-auto',
+        text === '' && 'lg:ml-0',
+        text === 'Coffees' && 'col-span-1 md:col-span-2 lg:col-span-1 lg:mr-0'
+      )}
+    >
       {/* Top */}
       <div className="flex items-end pb-sm">
         {icon}
-        <div className='flex items-baseline'>
+        <div className="flex items-baseline">
           {renderValue()}
           {text && <p className="text-xl">{text}</p>}
         </div>
       </div>
       {/* Bottom */}
-      <div className="flex justify-center text-sm xl:text-base">
+      <div className="flex text-sm xl:text-base text-accent justify-center items-center lg:justify-normal gap-xs">
         {subText}
+        {formula && <CoffeeFormula formula={formula} />}
       </div>
     </div>
   );

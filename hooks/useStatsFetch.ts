@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import { calculateCoffeeDrinks } from '@/utils/calculateCoffeeDrinks';
+import { useEffect, useState } from 'react';
 
 interface WakaTimeStats {
   total_time_human_readable: string;
@@ -37,16 +37,15 @@ export function useStatsFetch() {
         }
         const githubData = await githubResponse.json();
 
-        const coffeeDrinks = +(
-          (wakatimeData.total_time_seconds / 20 +
-            githubData.totalCommits * 50) /
-          100
-        ).toFixed(2);
+        const coffeeDrinks = calculateCoffeeDrinks({
+          totalTimeSeconds: wakatimeData.total_time_seconds,
+          totalCommits: githubData.totalCommits,
+        });
 
         setWakatimeStats(wakatimeData);
         setGithubStats(githubData);
         setCoffeeDrinks(coffeeDrinks);
-      } catch (error: any) {
+      } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
         setLoading(false);

@@ -41,9 +41,12 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching GitHub stats:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return new Response(
+      JSON.stringify({ error: 'Failed to fetch GitHub stats' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 }

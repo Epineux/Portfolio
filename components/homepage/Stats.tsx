@@ -1,8 +1,8 @@
 'use client'
 
-
 import { useStatsFetch } from '@/hooks/useStatsFetch';
 import { Clock5, Coffee, GitBranchPlus } from 'lucide-react';
+
 import StatsItem from './StatsItem';
 
 const Stats = () => {
@@ -31,6 +31,7 @@ const Stats = () => {
       ),
       value: coffeeDrinks || 0,
       subText: 'Coffee drinks',
+      formula: `\\frac{1}{100} \\left( \\int_{0}^{t} \\frac{1}{20} \\, dtime + 50commits \\right) + \\sum_{n=1}^{\\infty} \\frac{(-1)^{n+1}}{n^2} \\cdot e^{-c} + \\frac{\\sqrt{\\pi}}{2} \\cdot \\frac{t}{1000} = ${coffeeDrinks} \\text{ coffees}`,
     },
   ];
 
@@ -40,7 +41,7 @@ const Stats = () => {
 
   return (
     <div className="container mx-auto">
-      <h3 className="text-xl mb-2xl xl:ml-12 lg:ml-8 text-accent text-center lg:text-left">
+      <h3 className="text-xl mb-2xl text-accent text-center lg:text-left font-semibold">
         This Week :
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
